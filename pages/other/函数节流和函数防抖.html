@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>简述函数节流和函数防抖 | bobo首页</title>
+    <meta name="description" content="bobo的前端记录">
+    <link rel="icon" href="/egg.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.0bc6fdc7.css" as="style"><link rel="preload" href="/assets/js/app.f406e6e0.js" as="script"><link rel="preload" href="/assets/js/2.1db349ca.js" as="script"><link rel="preload" href="/assets/js/18.e10c9972.js" as="script"><link rel="prefetch" href="/assets/js/10.c8edd925.js"><link rel="prefetch" href="/assets/js/11.77a16ace.js"><link rel="prefetch" href="/assets/js/12.200a6977.js"><link rel="prefetch" href="/assets/js/13.8c72645b.js"><link rel="prefetch" href="/assets/js/14.50194f65.js"><link rel="prefetch" href="/assets/js/15.4d983794.js"><link rel="prefetch" href="/assets/js/16.b17e5bef.js"><link rel="prefetch" href="/assets/js/17.99237915.js"><link rel="prefetch" href="/assets/js/19.af6cd4f5.js"><link rel="prefetch" href="/assets/js/3.9d496083.js"><link rel="prefetch" href="/assets/js/4.6a2ba286.js"><link rel="prefetch" href="/assets/js/5.6403b662.js"><link rel="prefetch" href="/assets/js/6.f481367a.js"><link rel="prefetch" href="/assets/js/7.6b6a979b.js"><link rel="prefetch" href="/assets/js/8.962bae6a.js"><link rel="prefetch" href="/assets/js/9.56bd4ef3.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0bc6fdc7.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/egg.png" alt="bobo首页" class="logo"> <span class="site-name can-hide">bobo首页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="分类" class="dropdown-title"><span class="title">分类</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/js/es6项目中使用汇总.html" class="nav-link">js</a></li><li class="dropdown-item"><!----> <a href="/pages/html+css/css居中那些事.html" class="nav-link">html+css</a></li><li class="dropdown-item"><!----> <a href="/pages/other/websocket初入.html" class="nav-link">其他</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/bobo22" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="分类" class="dropdown-title"><span class="title">分类</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/js/es6项目中使用汇总.html" class="nav-link">js</a></li><li class="dropdown-item"><!----> <a href="/pages/html+css/css居中那些事.html" class="nav-link">html+css</a></li><li class="dropdown-item"><!----> <a href="/pages/other/websocket初入.html" class="nav-link">其他</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/bobo22" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>js</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/js/es6项目中使用汇总.html" class="sidebar-link">es6汇总</a></li><li><a href="/pages/js/call,apply和bind 入门解释.html" class="sidebar-link">call,apply,bind</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>html+css</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/html+css/css居中那些事.html" class="sidebar-link">css居中</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>方案</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/other/函数节流和函数防抖.html" class="active sidebar-link">节流与防抖</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/pages/other/函数节流和函数防抖.html#简述函数节流和函数防抖" class="sidebar-link">简述函数节流和函数防抖</a></li></ul></li><li><a href="/pages/other/websocket初入.html" class="sidebar-link">websocket</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>生活</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/life/liferegret.html" class="sidebar-link">mylife</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="简述函数节流和函数防抖"><a href="#简述函数节流和函数防抖" class="header-anchor">#</a> 简述函数节流和函数防抖</h2> <p>首先，我们需要了解一些和这两个知识点相关的基础知识，首先我们以两个通俗的例子展示一下：我们知道目前的一种说法是当 1 秒内连续播放 24 张以上的图片时，在人眼的视觉中就会形成一个连贯的动画，所以在电影的播放（以前是，现在不知道）中基本是以每秒 24 张的速度播放的，为什么不 100 张或更多是因为 24 张就可以满足人类视觉需求的时候，100 张就会显得很浪费资源。再举个栗子，假设电梯一次只能载一人的话，10 个人要上楼的话电梯就得走 10 次，是一种浪费资源的行为；而实际生活正显然不是这样的，当电梯里有人准备上楼的时候如果外面又有人按电梯的话，电梯会再次打开直到满载位置，从电梯的角度来说，这时一种节约资源的行为</p> <ul><li>函数节流： 指定规定时间内只能执行一次函数</li> <li>函数防抖：任务频繁触发的情况下，只有任务触发的间隔超过指定间隔的时候，任务才会执行。</li></ul> <p>其实函数防抖可以这样子理解，比如我们打游戏放一个蓄力技能，你需要一直按着键盘某个键位，当你松开或者其他动作时，技能会被中断，只有你一直按到一定时间的时候，技能才会放出去。这个一直按住的时间就可以理解为上面说到的&quot;<font color="#F68736" face="微软雅黑">指定的时间间隔</font>&quot;</p> <p>下面以实际例子讲一下函数防抖以及函数节流。</p> <h3 id="函数节流-throttle"><a href="#函数节流-throttle" class="header-anchor">#</a> 函数节流(throttle)</h3> <p>这边我们以一个常用的点击按钮事件来解释一下。项目中进场会用到一个提交按钮，有时候可能会因为网络问题或者操作问题，用户可能同时点了两三次按钮，这时候我们后台数据就会多出很多数据，这时候我们就可以使用节流进行限制，让其在同一时间内只能提交一次。代码如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;函数节流与函数防抖&lt;/title&gt;
+&lt;/head&gt;
+&lt;style&gt;
+    .submit-btn {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;submit-btn&quot; id=&quot;submit&quot;&gt;
+
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;script&gt;
+    window.onload = function(){
+        document.getElementById('submit').addEventListener('click',function(){
+            console.log(1)
+        })
+    }
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><p>这一段很简单的代码可以看到,我点击按钮点击几次就会输出几次，如果这里面伴随着ajax操作，那门就会存在调用多次的情况，下面我们用一些节流的思路来控制一下。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;函数节流与函数防抖&lt;/title&gt;
+&lt;/head&gt;
+&lt;style&gt;
+    .submit-btn {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
+&lt;/style&gt;
+&lt;body&gt;
+    &lt;div class=&quot;submit-btn&quot; id=&quot;submit&quot;&gt;
+
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;script&gt;
+    window.onload = function(){
+        // document.getElementById('submit').addEventListener('click',function(){
+        //     console.log(1)
+        // })
+
+        document.getElementById('submit').addEventListener('click',throttle(function(){
+            console.log(1)
+        }))
+    }
+
+    function throttle(fn, interval = 3000){
+        let canRun = true;
+        
+        return function(){
+            if(!canRun) return;
+
+            canRun = false;
+            setTimeout(() =&gt; {
+                fn.apply(this, arguments);
+                canRun = true;
+            }, interval);
+
+        }
+    }
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br></div></div><p>这边我们定义了一个throttle函数用来控制click事件的回调function。我们通过使用闭包定义了一个canrun参数，可以把它理解为一个全局变量，函数执行的时候为false，只有为true的时候，才会执行函数。当函数执行完成后可以将这个参数重新变为true，如果你有ajax操作的话可以把这个变为true的参数放在ajax的成功会掉里面，这样子就可以避免重复点击。</p> <h3 id="函数防抖-debounce"><a href="#函数防抖-debounce" class="header-anchor">#</a> 函数防抖(debounce)</h3> <p>函数防抖上面已经解释过了，就是判断一段时间内还有没有后续操作，如果有的话就重新计算开始。下面以一段栗子解释一下。</p> <p>我们以最常用的用户名验证来说明，之前我们验证某个用户名是否被注册，我们会使用鼠标移开事件监测，但现在我们一般会使用边输入边判断，这时候就需要我们使用防抖进行处理一下，如果用户一直在输入我们一直在请求很显然是不合理的。</p> <p>先展示我们一般处理的代码</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;函数节流与函数防抖&lt;/title&gt;
+    &lt;script src=&quot;./jquery.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;style&gt;
+    .submit-btn {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
+&lt;/style&gt;
+
+&lt;body&gt;
+
+    &lt;input type=&quot;text&quot; id=&quot;debounce&quot;&gt;
+&lt;/body&gt;
+&lt;script&gt;
+    window.onload = function () {
+
+        document.getElementById('debounce').addEventListener('input', function () {
+
+            var userName = this.value;
+
+            $.ajax({
+                url: './debounce.json',
+                method: 'get',
+                data: {},
+                success(data) {
+                    console.log(data);
+
+                    if(userName == data.usename) console.log('已经存在');
+                },
+                error(error) {
+                    console.log(error);
+                },
+            });
+        })
+    }
+
+&lt;/script&gt;
+
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br></div></div><p>效果图如下所示：
+<img src="http://oyghxd9p6.bkt.clouddn.com/52850B37-3EAC-4006-92F6-0493452ED9BC.png" alt=""></p> <p>这边json我简单写了一个返回admin字段的json，每次我输入就会请求一次json文件，是非常耗性能的，这时候我们就需要使用防抖的功能。实现代码如下。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;函数节流与函数防抖&lt;/title&gt;
+    &lt;script src=&quot;./jquery.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;style&gt;
+    .submit-btn {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
+&lt;/style&gt;
+
+&lt;body&gt;
+
+    &lt;input type=&quot;text&quot; id=&quot;debounce&quot;&gt;
+&lt;/body&gt;
+&lt;script&gt;
+    window.onload = function () {
+
+        document.getElementById('debounce').addEventListener('input', debounce(function () {
+
+            var userName = this.value;
+
+            $.ajax({
+                url: './debounce.json',
+                method: 'get',
+                data: {},
+                success(data) {
+                    console.log(data);
+
+                    if (userName == data.usename) console.log('已经存在');
+                },
+                error(error) {
+                    console.log(error);
+                },
+            });
+        }))
+    }
+
+    function debounce(fn, interval = 300) {
+        let timeout = null;
+
+        return function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() =&gt; {
+                fn.apply(this, arguments);
+            }, interval);
+        };
+    }
+&lt;/script&gt;
+
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br></div></div><p>效果如下图所示：
+<img src="http://oyghxd9p6.bkt.clouddn.com/BB6B32BD-88DA-47BD-81EB-AD0392CAC2BE.png" alt=""></p> <p>我们的debounce函数，其实就是每次改变的时候保存一个settimeout的值，每次变化则讲其变为null，同时重新进行一个定时器任务，根据时间间隔，比如我这边设置的是0.3秒,在0.3秒内还有输入的话，则这个json文件不请求。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">lastUpdate:</span> <span class="time">11/19/2019, 11:39:54 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/pages/html+css/css居中那些事.html" class="prev">css居中</a></span> <span class="next"><a href="/pages/other/websocket初入.html">websocket</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.f406e6e0.js" defer></script><script src="/assets/js/2.1db349ca.js" defer></script><script src="/assets/js/18.e10c9972.js" defer></script>
+  </body>
+</html>

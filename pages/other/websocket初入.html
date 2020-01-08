@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>浅析websocket | bobo首页</title>
+    <meta name="description" content="bobo的前端记录">
+    <link rel="icon" href="/egg.png">
+    
+    <link rel="preload" href="/assets/css/0.styles.0bc6fdc7.css" as="style"><link rel="preload" href="/assets/js/app.f406e6e0.js" as="script"><link rel="preload" href="/assets/js/2.1db349ca.js" as="script"><link rel="preload" href="/assets/js/17.99237915.js" as="script"><link rel="prefetch" href="/assets/js/10.c8edd925.js"><link rel="prefetch" href="/assets/js/11.77a16ace.js"><link rel="prefetch" href="/assets/js/12.200a6977.js"><link rel="prefetch" href="/assets/js/13.8c72645b.js"><link rel="prefetch" href="/assets/js/14.50194f65.js"><link rel="prefetch" href="/assets/js/15.4d983794.js"><link rel="prefetch" href="/assets/js/16.b17e5bef.js"><link rel="prefetch" href="/assets/js/18.e10c9972.js"><link rel="prefetch" href="/assets/js/19.af6cd4f5.js"><link rel="prefetch" href="/assets/js/3.9d496083.js"><link rel="prefetch" href="/assets/js/4.6a2ba286.js"><link rel="prefetch" href="/assets/js/5.6403b662.js"><link rel="prefetch" href="/assets/js/6.f481367a.js"><link rel="prefetch" href="/assets/js/7.6b6a979b.js"><link rel="prefetch" href="/assets/js/8.962bae6a.js"><link rel="prefetch" href="/assets/js/9.56bd4ef3.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0bc6fdc7.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/egg.png" alt="bobo首页" class="logo"> <span class="site-name can-hide">bobo首页</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="分类" class="dropdown-title"><span class="title">分类</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/js/es6项目中使用汇总.html" class="nav-link">js</a></li><li class="dropdown-item"><!----> <a href="/pages/html+css/css居中那些事.html" class="nav-link">html+css</a></li><li class="dropdown-item"><!----> <a href="/pages/other/websocket初入.html" class="nav-link">其他</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/bobo22" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="分类" class="dropdown-title"><span class="title">分类</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/pages/js/es6项目中使用汇总.html" class="nav-link">js</a></li><li class="dropdown-item"><!----> <a href="/pages/html+css/css居中那些事.html" class="nav-link">html+css</a></li><li class="dropdown-item"><!----> <a href="/pages/other/websocket初入.html" class="nav-link">其他</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/bobo22" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>js</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/js/es6项目中使用汇总.html" class="sidebar-link">es6汇总</a></li><li><a href="/pages/js/call,apply和bind 入门解释.html" class="sidebar-link">call,apply,bind</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>html+css</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/html+css/css居中那些事.html" class="sidebar-link">css居中</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>方案</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/other/函数节流和函数防抖.html" class="sidebar-link">节流与防抖</a></li><li><a href="/pages/other/websocket初入.html" class="active sidebar-link">websocket</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/pages/other/websocket初入.html#浅析websocket" class="sidebar-link">浅析websocket</a></li></ul></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>生活</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/pages/life/liferegret.html" class="sidebar-link">mylife</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="浅析websocket"><a href="#浅析websocket" class="header-anchor">#</a> 浅析websocket</h2> <p>要理解websocket是什么，我们得先从HTTP协议入手。这边我们主要介绍在通信方面他和websocket的区别。想要深入了解HTTP协议的小伙伴可以自行查找资料了解。</p> <p>HTTP是客户端/服务器模式中请求-响应所用的协议，在这种模式中，浏览器向服务器提交HTTP请求，服务器响应请求的资源。言下之意就是你可以把这种模式，想象成对讲机，一个人说，另一个人听</p> <h3 id="http是半双工通信"><a href="#http是半双工通信" class="header-anchor">#</a> HTTP是半双工通信</h3> <p>他的特点就是：</p> <p>1.同一时刻数据是单向流动的，客户端向服务端请求数据-&gt;单向，服务端向客户端返回数据-&gt;单向</p> <p>2.服务器不能主动的推送数据给客户端</p> <p>既然提到了半双工通信，就不得不提双工通信。在H5的websocket技术出现之前。我们有几种方式来实现这个东西，轮询，长轮询以及iframe流。今天我们就不介绍了，我们主要介绍一下我们的主人公websocket</p> <h3 id="websocket的优势"><a href="#websocket的优势" class="header-anchor">#</a> websocket的优势</h3> <p>1.支持双向通信，实时性更强(你可以来做个QQ，微信了，老铁)</p> <p>2.更好的二进制支持</p> <p>3.较少的控制开销(连接创建后，ws客户端、服务端进行数据交换时，协议控制的数据包头部较少)</p> <p>下面我们来手撸一下websocket的代码，再次了解一下他的应用。我们先不借助其他工具，写一段原生的websocket代码</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;title&gt;原生websocket 通信&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+	
+	&lt;script&gt;
+		let ws = new WebSocket('ws://localhost:9999');
+		
+		ws.onopen = function() {
+			ws.send('111');
+		}
+		
+		ws.onmessage = function(res){
+			console.log(res);
+			
+			console.log(res.data);
+		}
+	&lt;/script&gt;
+&lt;/html&gt;
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>好了，这边就是我们在前端页面实现一段websocket通信。首先创建连接，这边我们使用的本地连接。然后建立与服务端之间的连接，接受服务端发送的消息并触发。那么客户端的代码写完了，我们要写服务端的代码了。服务端后台我们借助于express构建一个简单的后台（不了解的同学可以自行了解一下express，或者使用koa，egg等都是一样的）。</p> <p>安装websocket和express的依赖包，写下服务端的代码</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>const express = require('express');
+const app = express();
+// 设置静态文件夹
+app.use(express.static(__dirname));
+// 监听3000端口
+app.listen(3000);
+// =============================================
+// 开始创建一个websocket服务
+const Server = require('ws').Server;
+// 这里是设置服务器的端口号，和上面的3000端口不用一致
+const ws = new Server({ port: 9999 });
+
+// 监听服务端和客户端的连接情况
+ws.on('connection', function(socket) {
+    // 监听客户端发来的消息
+    socket.on('message', function(msg) {
+        console.log(msg);   // 这个就是客户端发来的消息
+        // 来而不往非礼也，服务端也可以发消息给客户端
+        socket.send(`这里是服务端对你说的话： ${msg}`);
+    });
+});
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>现在我们执行一下该文件 node server.js，浏览器打开localhost:3000浏览器就会打开之前的index页面，打开控制台就可以看到服务器返回的信息了。</p> <p>最简单的一个demo我们就完成了。下面我们进行一个进阶，写一个简单的聊天室（一个很low的聊天室）。这边我们借助于<a href="https://socket.io/get-started/chat/" target="_blank" rel="noopener noreferrer">socket.io<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>,这边的demo也是模仿官网示例的，我只是代码的搬运工！</p> <p>老样子，我们先安装express以及socketio，为了防止有同学不会，我们简单写一下</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>npm install --save express
+npm install --save socket.io
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>安装完了我们在主项目下分别建立index.html和index.js文件。分别代表我们的服务端文件和客户端文件。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!doctype html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Socket.IO chat&lt;/title&gt;
+		&lt;style&gt;
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font: 13px Helvetica, Arial;
+			}
+
+			form {
+				background: #000;
+				padding: 3px;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+			}
+
+			form input {
+				border: 0;
+				padding: 10px;
+				width: 90%;
+				margin-right: .5%;
+			}
+
+			form button {
+				width: 9%;
+				background: rgb(130, 224, 255);
+				border: none;
+				padding: 10px;
+			}
+
+			#messages {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			#messages li {
+				padding: 5px 10px;
+			}
+
+			#messages li:nth-child(odd) {
+				background: #eee;
+			}
+		&lt;/style&gt;
+		&lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+		&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.4.1/jquery.js&quot;&gt;&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;ul id=&quot;messages&quot;&gt;&lt;/ul&gt;
+		&lt;form action=&quot;&quot;&gt;
+			&lt;input id=&quot;m&quot; autocomplete=&quot;off&quot; /&gt;&lt;button&gt;Send&lt;/button&gt;
+		&lt;/form&gt;
+	&lt;/body&gt;
+
+	&lt;script&gt;
+		$(function() {
+			var socket = io();
+			$('form').submit(function(e) {
+				e.preventDefault(); // prevents page reloading
+				socket.emit('chat message', $('#m').val());
+				$('#m').val('');
+				return false;
+			});
+
+			socket.on('chat message', function(msg) {
+				$('#messages').append($('&lt;li&gt;').text(msg));
+			});
+		});
+	&lt;/script&gt;
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br></div></div><p>客户端代码如上所示，主体部门
+我们在页面的提交按钮，进行了监听事件，我们对socket的chat message事件添加了钩子处理，方便与服务端进行数据交互。我们可以看下下面又给socket绑定了一个on事件，这边就是服务端接收到上面的消息之后回传过来的消息事件。这边有点像vue的组件之间的通信功能，进行数据的互相传递功能。下面我们看下服务端代码</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+// io.on('connection', function(socket){
+//   socket.on('chat message', function(msg){
+//     console.log('信息' + msg);
+//   });
+// });
+
+// 发送给所有人，客户端先发送信心过来，服务端接收到，发送给所有客户端
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message',msg)
+  });
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>可以看出来，服务端链接完毕之后对客户端传过来的信息进行了接受，同时再次吧该信息传给了客户端。这边我们就可以理解了，这里的聊天室功能就是用户A把信息先传给服务端，然后由服务端通知所有客户端进行数据处理来实现聊天室的功能。下面一张动图就是我们实现的效果图。
+<img src="https://ws2.sinaimg.cn/large/006tNc79gy1g619vi69fig30te0dwnpd.gif" alt=""></p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">lastUpdate:</span> <span class="time">11/19/2019, 11:39:54 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/pages/other/函数节流和函数防抖.html" class="prev">节流与防抖</a></span> <span class="next"><a href="/pages/life/liferegret.html">mylife</a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.f406e6e0.js" defer></script><script src="/assets/js/2.1db349ca.js" defer></script><script src="/assets/js/17.99237915.js" defer></script>
+  </body>
+</html>
